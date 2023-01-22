@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text">
+    <button>Отправить</button>
+    <div id="cards">
+    </div>
+    <script>
+        'use strict';
+        const siteURL = 'https://api.giphy.com/v1/gifs/search'
+        const apiKey = '?api_key=Bf3JSp6FEza3G7oXMofMeIfaCttG4NxT';
+        const q = '&q=';
+        const limit = '&limit=5';
+        let fullUrl = '';
+        const btn = document.querySelector('button');
+        btn.addEventListener('click', function () {
+            let inputResult = document.querySelector('input').value;
+            fullUrl = siteURL + apiKey + q + inputResult + limit;
+            getFetch()
+        })
+        let getFetch = async () => {
+            await fetch(fullUrl)
+                .then(response => response.json())
+                .then(gifs => {
+                    document.getElementById('cards').innerHTML = '';
+                    for (let i = 0; i < gifs.data.length; i++) {
+                        const gif = document.createElement('img')
+                        gif.src = gifs.data[i].images["original"].url
+                        document.getElementById('cards').appendChild(gif)
+                    }
+                })
+        }
+    </script>
+</body>
+
+</html>
