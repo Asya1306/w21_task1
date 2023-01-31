@@ -9,6 +9,8 @@
 </head>
 
 <body>
+    <h1>Внимание!</h1>
+    <p>Не ищи cat!</p>
     <input type="text">
     <button>Отправить</button>
     <div id="cards">
@@ -24,7 +26,15 @@
         btn.addEventListener('click', function () {
             let inputResult = document.querySelector('input').value;
             fullUrl = siteURL + apiKey + q + inputResult + limit;
-            getFetch()
+            try {
+                if (inputResult == 'cat' || inputResult == 'cats' || inputResult == 'kitten' || inputResult ==
+                    'kittens') {
+                    throw new Error('Картинки с котиками закончились')
+                }
+                getFetch()
+            } catch (e) {
+                alert(`Ошибка: ${e.message}`)
+            }
         })
         let getFetch = async () => {
             await fetch(fullUrl)
@@ -37,6 +47,7 @@
                         document.getElementById('cards').appendChild(gif)
                     }
                 })
+                .catch(err => alert('Ошибка сервера:' + err.message))
         }
     </script>
 </body>
